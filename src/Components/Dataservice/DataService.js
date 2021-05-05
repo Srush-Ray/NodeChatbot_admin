@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getAllQuestions = async () => {
   return await axios
-    .get("http://localhost:4000/all")
+    .get("/api/all")
     .then((response) => {
       console.log(response);
       return response;

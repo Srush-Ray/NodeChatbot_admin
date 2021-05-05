@@ -33,6 +33,12 @@ export default class AllQuestions extends Component {
         }
       })
       .catch((error) => {
+        this.setState({
+          text: "Nextwork Error",
+        });
+        this.setState({
+          gotError: true,
+        });
         console.log(error);
       });
   }
