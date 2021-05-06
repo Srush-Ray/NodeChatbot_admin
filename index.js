@@ -43,6 +43,6 @@ if (process.env.NODE_ENV === "production") {
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "/build/index.html"));
 });
-app.use("/all", routes.admin);
+app.use("/api/all", routes.admin);
 
 app.listen(port || 4000, console.log(`Server started on port ${port}`));
