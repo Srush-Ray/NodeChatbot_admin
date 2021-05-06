@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export const getAllQuestions = async () => {
-  return await fetch("/api/all")
+  return await axios
+    .get("/api/all")
     .then((response) => {
       console.log(response);
       return response;
