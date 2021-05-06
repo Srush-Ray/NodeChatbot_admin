@@ -26,3 +26,28 @@ export const deleteQuestion = async (data) => {
       return { message: "Error. Please try again later." };
     });
 };
+export const getAllQueTypes = async () => {
+  return await axios
+    .get("/api/all/quetype")
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+      return { message: "Error. Please try again later." };
+    });
+};
+export const addNewQA = async (data) => {
+  console.log(data);
+  return await axios
+    .post("/api/all/addnew", data)
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+      return { message: "Error. Please try again later." };
+    });
+};

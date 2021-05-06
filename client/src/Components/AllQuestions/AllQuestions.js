@@ -51,25 +51,28 @@ export default class AllQuestions extends Component {
     let sendData = {
       id: item.id,
     };
-    deleteQuestion(sendData)
-      .then((result) => {
-        console.log(result.data);
-        if (result.data.error) {
-          alert(result.data.error);
-        } else if (result.data.message) {
-          console.log(result);
-          alert(result.data.message);
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          text: "Nextwork Error",
+
+    if (window.confirm("Are you sure you wish to delete this item?")) {
+      deleteQuestion(sendData)
+        .then((result) => {
+          console.log(result.data);
+          if (result.data.error) {
+            alert(result.data.error);
+          } else if (result.data.message) {
+            console.log(result);
+            alert(result.data.message);
+          }
+        })
+        .catch((error) => {
+          this.setState({
+            text: "Nextwork Error",
+          });
+          this.setState({
+            gotError: true,
+          });
         });
-        this.setState({
-          gotError: true,
-        });
-      });
-    window.location.reload();
+      window.location.reload();
+    }
   };
   render() {
     return (

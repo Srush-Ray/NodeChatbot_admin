@@ -26,23 +26,22 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// router.get("/quetype/", async (req, res, next) => {
-//   console.log("here");
-//   try {
-//     await pool.query('SELECT * FROM "questype"', (error, results) => {
-//       if (error) {
-//         console.log(error);
-//         res.status(200).json({ message: "Error. Please check connection!!" });
-//         // throw error;
-//       } else {
-//         console.log(results.rows);
-//         res.status(200).json(results.rows);
-//       }
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+router.get("/quetype", async (req, res, next) => {
+  try {
+    await pool.query('SELECT * FROM "questype"', (error, results) => {
+      if (error) {
+        console.log(error);
+        res.status(200).json({ message: "Error. Please check connection!!" });
+        // throw error;
+      } else {
+        // console.log(results.rows);
+        res.status(200).json(results.rows);
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post("/delete", async (req, res, next) => {
   try {
@@ -64,5 +63,25 @@ router.post("/delete", async (req, res, next) => {
     next(error);
   }
 });
-
+router.post("/addnew", async (req, res, next) => {
+  try {
+    console.log(req.body);
+    await pool.query(
+      `INSERT INTO query_table values(default,'${req.body.question}','${req.body.answer}',${req.body.satisfied},${req.body.unsatisfied},${req.body.view},'${req.body.queType}');`,
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          res.status(200).json({ error: "Error. Please check connection!!" });
+          // throw error;
+        } else {
+          // console.log(results);
+          res.status(200).json({ message: "Question answer added" });
+        }
+      }
+    );
+    // res.status(200).json({ message: "Question answer deleted" });
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;
