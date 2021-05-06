@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { deleteQuestion, getAllQuestions } from "../Dataservice/DataService";
 import ShowError from "../ErrorComponent/ShowError";
 import "./AllQuestion.css";
+import { Link } from "react-router-dom";
 export default class AllQuestions extends Component {
   constructor(props) {
     super(props);
@@ -109,9 +110,11 @@ export default class AllQuestions extends Component {
                     </button>
                   </div>
                   <div className="col-md-3">
-                    <a href="/addnew" className="btn btn-outline-success">
+                    <Link to={"./addnew"}>
+                      {/* <a href="/addnew" className="btn btn-outline-success"> */}
                       <i className="fas fa-plus"></i> Add New Question
-                    </a>
+                      {/* </a> */}
+                    </Link>
                   </div>
                 </div>
               </div>
