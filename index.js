@@ -31,7 +31,6 @@ app.use(express.static(buildPath));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
-routes(app);
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
   app.use(express.static(path.resolve(__dirname, "client/build")));
