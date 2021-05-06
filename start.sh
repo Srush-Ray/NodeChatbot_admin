@@ -1,2 +1,2 @@
-cd Backend && node index &
+cd client && npm start &
 npm start

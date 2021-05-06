@@ -9,11 +9,14 @@ export default class ShowError extends Component {
   }
   render() {
     return (
-      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <div
+        className="alert alert-warning alert-dismissible fade show"
+        role="alert"
+      >
         <strong>{this.state.errorText}</strong>
         <button
           type="button"
-          class="close"
+          className="close"
           data-dismiss="alert"
           aria-label="Close"
         >

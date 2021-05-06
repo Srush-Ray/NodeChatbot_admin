@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getAllQuestions } from "../Dataservice/DataService";
+import { deleteQuestion, getAllQuestions } from "../Dataservice/DataService";
 import ShowError from "../ErrorComponent/ShowError";
 import "./AllQuestion.css";
 export default class AllQuestions extends Component {
@@ -16,11 +16,15 @@ export default class AllQuestions extends Component {
     await getAllQuestions()
       .then((result) => {
         if (result.message) {
+          console.log(result);
           this.setState({
             text: result.message,
           });
           this.setState({
             gotError: true,
+          });
+          this.setState({
+            loading: false,
           });
         } else {
           console.log(result.data);
@@ -39,9 +43,34 @@ export default class AllQuestions extends Component {
         this.setState({
           gotError: true,
         });
-        console.log(error);
       });
   }
+  handleDelete = (item) => {
+    // e.preventDefault();
+    console.log("clicked", item.id);
+    let sendData = {
+      id: item.id,
+    };
+    deleteQuestion(sendData)
+      .then((result) => {
+        console.log(result.data);
+        if (result.data.error) {
+          alert(result.data.error);
+        } else if (result.data.message) {
+          console.log(result);
+          alert(result.data.message);
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          text: "Nextwork Error",
+        });
+        this.setState({
+          gotError: true,
+        });
+      });
+    window.location.reload();
+  };
   render() {
     return (
       <div>
@@ -77,7 +106,7 @@ export default class AllQuestions extends Component {
                     </button>
                   </div>
                   <div className="col-md-3">
-                    <a href="k" className="btn btn-outline-success">
+                    <a href="/addnew" className="btn btn-outline-success">
                       <i className="fas fa-plus"></i> Add New Question
                     </a>
                   </div>
@@ -111,12 +140,16 @@ export default class AllQuestions extends Component {
                         <td>{item.unsatisfied}</td>
                         <td>
                           <button type="button" className="AllQuestion_button">
-                            <i class="far fa-edit fa-lg"></i>
+                            <i className="far fa-edit fa-lg"></i>
                           </button>
                         </td>
                         <td>
-                          <button type="button" className="AllQuestion_button">
-                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                          <button
+                            type="button"
+                            className="AllQuestion_button"
+                            onClick={() => this.handleDelete(item)}
+                          >
+                            <i className="far fa-trash-alt fa-lg text-danger float-right"></i>
                           </button>
                         </td>
                       </tr>
