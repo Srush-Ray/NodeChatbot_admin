@@ -17,7 +17,7 @@ router.get("/", async (req, res, next) => {
       res.status(200).json({ message: "Error. Please check connection!!" });
       // throw error;
     } else {
-      console.log(results.rows);
+      // console.log(results.rows);
       res.status(200).json(results.rows);
     }
   });
