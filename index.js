@@ -11,7 +11,7 @@ app.use(express.static(buildPath));
 // ** MIDDLEWARE ** //
 // const whitelist = [
 //   "http://localhost:3000",
-//   "http://localhost:8080",
+//   "http://localhost:4000",
 //   "https://young-falls-90605.herokuapp.com/",
 // ];
 // const corsOptions = {
@@ -35,14 +35,10 @@ if (process.env.NODE_ENV === "production") {
   // Serve any static files
   app.use(express.static(path.join(__dirname, "client/build")));
   // Handle React routing, return all requests to React app
-  app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "/build/index.html"));
   });
+  app.use("/api/all", routes.admin);
 }
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "/build/index.html"));
-});
-app.use("/api/all", routes.admin);
 
 app.listen(port || 4000, console.log(`Server started on port ${port}`));
