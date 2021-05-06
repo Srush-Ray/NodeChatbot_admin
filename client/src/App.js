@@ -8,7 +8,11 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/" component={AllQuestions} exact />
-          <Route path="/addnew" component={NewQA} exact />
+          <Route
+            path="https://young-falls-90605.herokuapp.com/addnew"
+            component={NewQA}
+            exact
+          />
           {/*  
     <Route path="/aboutUs" component={Aboutus} />
     <Route path="/desk" component={Desk} />
