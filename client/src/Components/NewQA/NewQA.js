@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import {
   addNewQA,
   addNewQueType,
+  countUnsat,
+  deleteQtype,
   getAllQueTypes,
 } from "../Dataservice/DataService";
 import ShowError from "../ErrorComponent/ShowError";
@@ -21,9 +23,10 @@ export default class NewQA extends Component {
       unsatisfied: "0",
       queType: "",
       queTypeNew: "",
+      countOfUnsat: [],
     };
   }
-  async componentDidMount() {
+  async loadData() {
     await getAllQueTypes()
       .then((result) => {
         if (result.message) {
@@ -51,6 +54,36 @@ export default class NewQA extends Component {
           gotError: true,
         });
       });
+    await countUnsat()
+      .then((result) => {
+        if (result.message) {
+          console.log(result);
+          this.setState({
+            errorText: result.message,
+          });
+          this.setState({
+            gotError: true,
+          });
+          this.setState({
+            loading: false,
+          });
+        } else {
+          this.setState({
+            countOfUnsat: result.data,
+          });
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          errorText: "Nextwork Error",
+        });
+        this.setState({
+          gotError: true,
+        });
+      });
+  }
+  componentDidMount() {
+    this.loadData();
   }
   handleChange = (event) => {
     event.preventDefault();
@@ -81,6 +114,7 @@ export default class NewQA extends Component {
           console.log(result);
           alert(result.data.message);
           setTimeout(() => {
+            this.loadData();
             e.target.reset();
           }, 2000);
         }
@@ -94,6 +128,29 @@ export default class NewQA extends Component {
         });
       });
     // window.location.reload();
+  };
+  handleDeleteQtype = (item) => {
+    if (window.confirm("Are you sure you wish to delete this item?")) {
+      deleteQtype(item)
+        .then((result) => {
+          console.log(result.data);
+          if (result.data.error) {
+            alert(result.data.error);
+          } else if (result.data.message) {
+            console.log(result);
+            alert(result.data.message);
+            this.loadData();
+          }
+        })
+        .catch((error) => {
+          this.setState({
+            text: "Nextwork Error",
+          });
+          this.setState({
+            gotError: true,
+          });
+        });
+    }
   };
   handleSubmitQueType = (e) => {
     e.preventDefault();
@@ -109,8 +166,9 @@ export default class NewQA extends Component {
           console.log(result);
           alert(result.data.message);
           setTimeout(() => {
+            this.loadData();
             e.target.reset();
-          }, 2000);
+          }, 1500);
         }
       })
       .catch((error) => {
@@ -122,6 +180,7 @@ export default class NewQA extends Component {
         });
       });
   };
+
   render() {
     return (
       <div className="container">
@@ -273,6 +332,39 @@ export default class NewQA extends Component {
                   </a>
                 </form>
                 <hr className="NewQA_hr" />
+                <h5>Current question types</h5>
+                <small style={{ color: "red" }}>
+                  Deleting question type will delete related questions from
+                  database
+                </small>
+                <table className="table table-borderless table-hover text-left">
+                  <thead className="border-bottom font-weight-bold">
+                    <tr>
+                      <th>Question Type</th>
+                      <th>Count of question in database</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.countOfUnsat.map((item, index) => (
+                      <tr key={`tr${index}`}>
+                        <td>{item.typename}</td>
+                        <td>{item.count}</td>{" "}
+                        <td>
+                          <button
+                            type="button"
+                            className="AllQuestion_button"
+                            onClick={() => this.handleDeleteQtype(item)}
+                          >
+                            <i className="far fa-trash-alt fa-lg text-danger float-right"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <hr className="NewQA_hr" />
+
                 <h5>Add new question type</h5>
                 <form onSubmit={this.handleSubmitQueType}>
                   <div className="form-group">

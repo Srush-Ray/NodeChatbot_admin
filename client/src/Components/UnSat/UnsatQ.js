@@ -16,7 +16,7 @@ export default class UnsatQ extends Component {
       text: "",
     };
   }
-  async componentDidMount() {
+  async loadData() {
     await getUnsatisfiedQuestions()
       .then((result) => {
         if (result.message) {
@@ -49,6 +49,9 @@ export default class UnsatQ extends Component {
         });
       });
   }
+  componentDidMount() {
+    this.loadData();
+  }
 
   handleDelete = (item) => {
     // e.preventDefault();
@@ -64,6 +67,9 @@ export default class UnsatQ extends Component {
           } else if (result.data.message) {
             console.log(result);
             alert(result.data.message);
+            setTimeout(() => {
+              this.loadData();
+            }, 1500);
           }
         })
         .catch((error) => {

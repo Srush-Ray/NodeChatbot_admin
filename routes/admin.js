@@ -122,6 +122,47 @@ router.get("/unsatQ", async (req, res, next) => {
     next(error);
   }
 });
+router.get("/countUnsat", async (req, res, next) => {
+  try {
+    await pool.query(
+      "SELECT questype.typename, (SELECT COUNT(quetype) FROM query_table WHERE query_table.quetype = questype.typename) AS count FROM questype;",
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          res.status(200).json({ message: "Error. Please check connection!!" });
+          // throw error;
+        } else {
+          // console.log(results.rows);
+          res.status(200).json(results.rows);
+        }
+      }
+    );
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/deleteQtype", async (req, res, next) => {
+  console.log(req.body);
+  try {
+    await pool.query(
+      `DELETE FROM questype WHERE typename = '${req.body.typename}';`,
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          res.status(200).json({ message: "Error. Please check connection!!" });
+          // throw error;
+        } else {
+          // console.log(results.rows);
+          res.status(200).json({ message: "Question Type deleted" });
+        }
+      }
+    );
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/editqa", async (req, res, next) => {
   console.log(req.body);
   try {

@@ -41,7 +41,7 @@ export default class UpdateQA extends Component {
           alert(result.data.message);
           setTimeout(() => {
             e.target.reset();
-          }, 2000);
+          }, 1500);
         }
       })
       .catch((error) => {
