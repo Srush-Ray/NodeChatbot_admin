@@ -130,7 +130,7 @@ export default class UnsatQ extends Component {
                 {this.state.loading ? (
                   <div>Loading</div>
                 ) : (
-                  <table className="table table-borderless table-hover text-left">
+                  <table className="table table-sm  table-responsive-sm table-borderless table-hover text-left">
                     <thead className="border-bottom font-weight-bold">
                       <tr>
                         <th>ID</th>

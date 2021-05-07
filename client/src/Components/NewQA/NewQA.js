@@ -337,7 +337,7 @@ export default class NewQA extends Component {
                   Deleting question type will delete related questions from
                   database
                 </small>
-                <table className="table table-borderless table-hover text-left">
+                <table className="table  table-sm  table-responsive-sm table-borderless table-hover text-left">
                   <thead className="border-bottom font-weight-bold">
                     <tr>
                       <th>Question Type</th>
