@@ -51,3 +51,56 @@ export const addNewQA = async (data) => {
       return { message: "Error. Please try again later." };
     });
 };
+
+export const delete_Unsat_Question = async (data) => {
+  console.log(data);
+  return await axios
+    .post("/api/all/deleteUnsat", data)
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+      return { message: "Error. Please try again later." };
+    });
+};
+
+export const getUnsatisfiedQuestions = async () => {
+  return await axios
+    .get("/api/all/unsatQ")
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+      return { message: "Error. Please try again later." };
+    });
+};
+export const addNewQueType = async (data) => {
+  console.log(data);
+  return await axios
+    .post("/api/all/addquesType", data)
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+      return { message: "Error. Please try again later." };
+    });
+};
+export const editQA = async (data) => {
+  console.log(data);
+  return await axios
+    .post("/api/all/editqa", data)
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+      return { message: "Error. Please try again later." };
+    });
+};

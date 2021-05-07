@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { addNewQA, getAllQueTypes } from "../Dataservice/DataService";
+import {
+  addNewQA,
+  addNewQueType,
+  getAllQueTypes,
+} from "../Dataservice/DataService";
 import ShowError from "../ErrorComponent/ShowError";
 import "./NewQA.css";
 export default class NewQA extends Component {
@@ -16,6 +20,7 @@ export default class NewQA extends Component {
       satisfied: "0",
       unsatisfied: "0",
       queType: "",
+      queTypeNew: "",
     };
   }
   async componentDidMount() {
@@ -76,7 +81,7 @@ export default class NewQA extends Component {
           console.log(result);
           alert(result.data.message);
           setTimeout(() => {
-            window.location.reload();
+            e.target.reset();
           }, 2000);
         }
       })
@@ -89,6 +94,33 @@ export default class NewQA extends Component {
         });
       });
     // window.location.reload();
+  };
+  handleSubmitQueType = (e) => {
+    e.preventDefault();
+    var formData = new FormData(e.target);
+    const data = {};
+    data["queTypeNew"] = formData.get("queTypeNew") || this.state.queTypeNew;
+    addNewQueType(data)
+      .then((result) => {
+        console.log(result.data);
+        if (result.data.error) {
+          alert(result.data.error);
+        } else if (result.data.message) {
+          console.log(result);
+          alert(result.data.message);
+          setTimeout(() => {
+            e.target.reset();
+          }, 2000);
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          text: "Nextwork Error",
+        });
+        this.setState({
+          gotError: true,
+        });
+      });
   };
   render() {
     return (
@@ -124,116 +156,145 @@ export default class NewQA extends Component {
         <div className="row d-flex justify-content-center text-left ">
           <div className="col-md-11 col-12 NewQA_Row mb-5">
             {this.state.loading ? (
-              <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                  <label className="" htmlFor="question">
-                    Question*
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="question"
-                    name="question"
-                    onChange={this.handleChange}
-                    required
-                    aria-describedby="question"
-                    placeholder="Enter Question"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="" htmlFor="question">
-                    Answer*
-                  </label>
-                  <textarea
-                    type="text"
-                    required
-                    className="form-control"
-                    onChange={this.handleChange}
-                    id="answer"
-                    name="answer"
-                    aria-describedby="answer"
-                    placeholder="Enter Answer"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="" htmlFor="question">
-                    Viewed Count (default zero)
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    required
-                    className="form-control"
-                    onChange={this.handleChange}
-                    id="view"
-                    name="view"
-                    aria-describedby="view"
-                    defaultValue="0"
-                    placeholder="Enter Viewed Count"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="" htmlFor="question">
-                    Unsatisfied Count (default zero)
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    required
-                    className="form-control"
-                    id="unsatisfied"
-                    onChange={this.handleChange}
-                    name="unsatisfied"
-                    defaultValue="0"
-                    aria-describedby="unsatisfied"
-                    placeholder="Enter Unsatisfied Count"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="" htmlFor="question">
-                    Satisfied Count (default zero)
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    defaultValue="0"
-                    className="form-control"
-                    id="satisfied"
-                    name="satisfied"
-                    onChange={this.handleChange}
-                    required
-                    aria-describedby="satisfied"
-                    placeholder="Enter Satisfied Count"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="queType">Example select</label>
-                  <select
-                    required
-                    className="form-control"
-                    name="queType"
-                    onChange={this.handleChange}
-                    id="queType"
-                  >
-                    <option value="" selected disabled>
-                      Select Question Type
-                    </option>
-                    {this.state.questypes.map((item, index) => (
-                      <option key={item.id} value={item.typename}>
-                        {item.typename}
+              <div>
+                <form onSubmit={this.handleSubmit}>
+                  <div className="form-group">
+                    <label className="" htmlFor="question">
+                      Question*
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="question"
+                      name="question"
+                      onChange={this.handleChange}
+                      required
+                      aria-describedby="question"
+                      placeholder="Enter Question"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="" htmlFor="question">
+                      Answer*
+                    </label>
+                    <textarea
+                      type="text"
+                      required
+                      className="form-control"
+                      onChange={this.handleChange}
+                      id="answer"
+                      name="answer"
+                      aria-describedby="answer"
+                      placeholder="Enter Answer"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="" htmlFor="question">
+                      Viewed Count (default zero)
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      required
+                      className="form-control"
+                      onChange={this.handleChange}
+                      id="view"
+                      name="view"
+                      aria-describedby="view"
+                      defaultValue="0"
+                      placeholder="Enter Viewed Count"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="" htmlFor="question">
+                      Unsatisfied Count (default zero)
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      required
+                      className="form-control"
+                      id="unsatisfied"
+                      onChange={this.handleChange}
+                      name="unsatisfied"
+                      defaultValue="0"
+                      aria-describedby="unsatisfied"
+                      placeholder="Enter Unsatisfied Count"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="" htmlFor="question">
+                      Satisfied Count (default zero)
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      defaultValue="0"
+                      className="form-control"
+                      id="satisfied"
+                      name="satisfied"
+                      onChange={this.handleChange}
+                      required
+                      aria-describedby="satisfied"
+                      placeholder="Enter Satisfied Count"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="queType">Example select</label>
+                    <p className="p-0 m-0">
+                      <small>
+                        If you do not find question type add a new one.
+                      </small>
+                    </p>
+                    <select
+                      required
+                      className="form-control"
+                      name="queType"
+                      onChange={this.handleChange}
+                      id="queType"
+                    >
+                      <option value="" selected disabled>
+                        Select Question Type
                       </option>
-                    ))}
-                  </select>
-                </div>
-                <button type="submit" className="btn btn-success col-5">
-                  <i class="fas fa-database"></i> Submit
-                </button>
-                <a href="/">
-                  <button type="button" className="btn btn-light ml-5 col-3">
-                    Cancel
+                      {this.state.questypes.map((item, index) => (
+                        <option key={item.id} value={item.typename}>
+                          {item.typename}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <button type="submit" className="btn btn-success col-5">
+                    <i class="fas fa-database"></i> Submit
                   </button>
-                </a>
-              </form>
+                  <a href="/">
+                    <button type="button" className="btn btn-light ml-5 col-3">
+                      Cancel/Back
+                    </button>
+                  </a>
+                </form>
+                <hr className="NewQA_hr" />
+                <h5>Add new question type</h5>
+                <form onSubmit={this.handleSubmitQueType}>
+                  <div className="form-group">
+                    <label className="" htmlFor="questionType">
+                      Question Type
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="queTypeNew"
+                      name="queTypeNew"
+                      onChange={this.handleChange}
+                      required
+                      aria-describedby="questionType"
+                      placeholder="Enter Question Type"
+                    />
+                  </div>
+                  <button type="sumbit" className="btn btn-success ">
+                    ADD
+                  </button>
+                </form>
+              </div>
             ) : (
               <div></div>
             )}

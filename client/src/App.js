@@ -2,6 +2,8 @@ import "./App.css";
 import { Switch, BrowserRouter, Route } from "react-router-dom";
 import AllQuestions from "./Components/AllQuestions/AllQuestions";
 import NewQA from "./Components/NewQA/NewQA";
+import UnsatQ from "./Components/UnSat/UnsatQ";
+
 function App() {
   return (
     <div className="App">
@@ -9,6 +11,8 @@ function App() {
         <Switch>
           <Route path="/" component={AllQuestions} exact />
           <Route path="/addnew" component={NewQA} />
+
+          <Route path="/unsatQ" component={UnsatQ} />
           {/*  
     <Route path="/aboutUs" component={Aboutus} />
     <Route path="/desk" component={Desk} />
