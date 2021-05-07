@@ -220,6 +220,9 @@ export default class NewQA extends Component {
                   <div className="form-group">
                     <label className="" htmlFor="question">
                       Question*
+                      <p className="m-0 p-0">
+                        <small>Cannot contain ' or "</small>
+                      </p>
                     </label>
                     <input
                       type="text"
@@ -235,6 +238,9 @@ export default class NewQA extends Component {
                   <div className="form-group">
                     <label className="" htmlFor="question">
                       Answer*
+                      <p className="m-0 p-0">
+                        <small>Cannot contain ' or "</small>
+                      </p>
                     </label>
                     <textarea
                       type="text"
@@ -370,6 +376,9 @@ export default class NewQA extends Component {
                   <div className="form-group">
                     <label className="" htmlFor="questionType">
                       Question Type
+                      <p className="m-0 p-0">
+                        <small>Cannot contain ' or "</small>
+                      </p>
                     </label>
                     <input
                       type="text"
